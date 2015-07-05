@@ -1,4 +1,4 @@
-/*
+/**
  * spieeprom.cpp - library for SPI EEPROM IC's
  * https://bitbucket.org/trunet/spieeprom/
  * 
@@ -6,7 +6,10 @@
  * available on http://www.arduino.cc/en/Tutorial/SPIEEPROM
  * 
  * by Wagner Sartori Junior <wsartori@gmail.com>
- */
+ *
+ * Modified by David Beaudette
+ *
+ **/
 #ifdef EEPROM_SPI  
 
 #include "spieeprom.h"

@@ -89,10 +89,6 @@ void SPIEEPROM::write(long addr, byte data) {
 	SPI.transfer(data); // transfer data
 	
 	digitalWrite(this->slave_select, HIGH);
-	
-	while (isWIP()) {
-		delay(1);
-	}
 }
 
 void SPIEEPROM::write(long addr, byte data[], int arrLength) {
@@ -105,9 +101,6 @@ void SPIEEPROM::write(long addr, byte data[], int arrLength) {
 	}
 	
 	digitalWrite(this->slave_select, HIGH);
-	while (isWIP()) {
-		delay(1);
-	}
 }
 
 byte SPIEEPROM::read_byte(long addr) {
@@ -155,6 +148,20 @@ void SPIEEPROM::erase_sector(unsigned int sector_num) {
   enable_write();
 	digitalWrite(this->slave_select, LOW);
 	SPI.transfer(SPIEEPROM_SE); // send sector erase command
+	send_address(addr); // send Chip erase command
+	digitalWrite(this->slave_select, HIGH);  
+}
+
+void SPIEEPROM::erase_page(unsigned int page_num) {
+  // Build an address in sector
+  long addr = page_num;
+  addr = addr << 8;  
+  
+  // Wait until any previous write is finished
+  while(isWIP());
+  enable_write();
+	digitalWrite(this->slave_select, LOW);
+	SPI.transfer(SPIEEPROM_PE); // send sector erase command
 	send_address(addr); // send Chip erase command
 	digitalWrite(this->slave_select, HIGH);  
 }
